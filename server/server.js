@@ -1,4 +1,5 @@
 var express = require('express');
+var morgan = require('morgan'); // used for logging incoming request
 var bodyParser = require('body-parser');
 var db = require('./db.js');
 
@@ -8,6 +9,7 @@ var db = require('./db.js');
 var app = express();
 module.exports = app;
 
+app.use(morgan('dev'));
 app.use(bodyParser.json({limit: '10mb'}));
 app.use(bodyParser.urlencoded({limit: '10mb', extended: true}));
 app.use(express.static(__dirname + '/../client'));
@@ -31,5 +33,5 @@ require('./roms/romsRoutes.js')(app);
 // /server/db.js
 // /server/`modelName`/`modelNameController`/
 // /server/`modelName`/`modelNameRoutes`/
-// /server/`modelName`/`modelNameModel`/ 
+// /server/`modelName`/`modelNameModel`/
 //
