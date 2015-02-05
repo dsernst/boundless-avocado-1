@@ -3,9 +3,7 @@ angular.module('uGame.login', [])
 .controller('LoginController', function($scope, $interval, $location, User, LxNotificationService){
   $scope.user = {};
 
-  g_dropbox = new Dropbox.Client({key: '5ujoo0abo7z85ag' });
-  g_dropbox.authenticate({interactive: false });
-  if (g_dropbox.isAuthenticated()) {
+  if (dropbox.isAuthenticated()) {
     $location.path('/home');
   }
 
@@ -20,14 +18,6 @@ angular.module('uGame.login', [])
     $scope.changedWords = array[i];
   }, 500, 4);
 
-  // login ()
-  //---------
-  // returns: null;
-  //
-  // WHAT IT DOES
-  //
-  // Sends login information through a POST request to server for access to api through the User service
-  //
   $scope.login = function(){
     // // Sends POST request only if username and password is present
     // if($scope.user.username && $scope.user.password){
@@ -44,7 +34,7 @@ angular.module('uGame.login', [])
     //   return false;
     // }
 
-    g_dropbox.authenticate();
+    User.login();
   };
 
 });
