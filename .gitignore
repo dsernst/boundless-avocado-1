@@ -10,6 +10,7 @@ coverage/
 
 # Bower components
 client/lib
+lib/
 
 # CSS built from SASS
 client/styles/*.css
