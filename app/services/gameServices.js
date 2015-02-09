@@ -1,34 +1,50 @@
-app.factory('Game', function($http, $location) {
+app.factory('Game', function($http, $q) {
+
   return {
 
-    // get (string)
-    //-------------
-    // returns: object, boolean;
-    //
-    // WHAT IT DOES
-    //
-    // Receives id of game and sends it through a GET request to the
-    // server. It either receives the game in a object which it then returns
-    // or an error object that it then throws.
-    //
+    // // get (string)
+    // //-------------
+    // // returns: object, boolean;
+    // //
+    // // WHAT IT DOES
+    // //
+    // // Receives id of game and sends it through a GET request to the
+    // // server. It either receives the game in a object which it then returns
+    // // or an error object that it then throws.
+    // //
+    // get: function(id) {
+    //   return $http({
+    //     method: 'GET',
+    //     url: '/api/game/' + id
+    //   })
+    //   .then(
+    //     function(resp) {
+    //       if (resp.data) {
+    //         return resp.data[0];
+    //       } else {
+    //         return false;
+    //       }
+    //     },
+    //     function(error){
+    //       throw error.status + ' : ' + error.data;
+    //     }
+    //   );
+    // },
+
     get: function(id) {
-      return $http({
-        method: 'GET',
-        url: '/api/game/' + id
-      })
-      .then(
-        function(resp) {
-          if (resp.data) {
-            return resp.data[0];
-          } else {
-            return false;
+      return $q(function (resolve, reject) {
+        console.log('inside $q function')
+        dropbox.readFile('/romlibrary2.js', {httpCache: true}, function (error, file, fileStats) {
+          console.log('inside dropbox callback')
+          if (error) {
+            reject(error);
           }
-        },
-        function(error){
-          throw error.status + ' : ' + error.data;
-        }
-      );
+          eval(file);
+          resolve(module.exports[id]);
+        });
+      });
     },
+
 
     // save (object)
     //-------------
@@ -73,7 +89,7 @@ app.factory('Game', function($http, $location) {
       })
       .then(
         function(resp) {
-          if (resp.data[0]) {            
+          if (resp.data[0]) {
             return resp.data[0];
           } else {
             return false;
